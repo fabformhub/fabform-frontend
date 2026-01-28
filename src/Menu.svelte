@@ -1,73 +1,111 @@
 <script>
-import {active} from 'tinro';
-import {user_id} from "./helpers/store.js"
-import {clickOutside} from './clickOutside.js';
+  import { active } from 'tinro'
+  import { user_id } from "./helpers/store.js"
+  import { clickOutside } from './clickOutside.js'
 
-let show = false;
+  let show = false
 
-const toggleDropdown = () =>{
+  const toggleDropdown = () => {
     show = !show
   }
 
-let keyCode;
+  const onKeydown = (event) => {
+    if (event.keyCode === 27) show = false
+  }
 
-const onKeydown = (event) => {
-  keyCode = event.keyCode;
-  if (keyCode ==27) { show =false}
-}
-
-function closeMenu(event) {
-  show = false;
-}
-
+  function closeMenu() {
+    show = false
+  }
 </script>
+
 {#if $user_id}
-<div class="mt-1 dropdown" class:is-active={show} on:click={toggleDropdown} on:keydown={onKeydown} use:clickOutside on:click_outside={closeMenu}>
-  <div class="dropdown-trigger ">
-    <button class="button " aria-haspopup="true" aria-controls="dropdown-menu" >
+<div 
+  class="dropdown is-right" 
+  class:is-active={show}
+  on:click={toggleDropdown}
+  on:keydown={onKeydown}
+  use:clickOutside
+  on:click_outside={closeMenu}
+>
+
+  <!-- Trigger -->
+  <div class="dropdown-trigger">
+    <button class="button is-white has-text-weight-semibold px-4 py-2" aria-haspopup="true">
       <span>Menu</span>
       <span class="icon is-small">
-        <i class="fas fa-angle-down" aria-hidden="true"></i>
+        <i class="fas fa-angle-down"></i>
       </span>
     </button>
   </div>
-  <div class="dropdown-menu" id="dropdown-menu" role="menu">
-    <div class="dropdown-content">
-<a class="dropdown-item" href="/#/account"><span><i class="fa-solid fa-user"></i></span>
-Account
-</a>
-<a class="dropdown-item" href="/#/forms"><span>
-<i class="fa-brands fa-wpforms"></i></span>
-Forms
-</a>
-<a class="dropdown-item" target="_blank" href="https://docs.fabform.io"><span>
-<i class="fa-solid fa-book"></i></span>
-Documentation
-</a>
-<a class="dropdown-item" target="_blank" href="https://fabform.io/contact-us/"><span>
-<i class="fa-regular fa-message"></i></span>
-Contact Us
-</a>
 
-<hr class="dropdown-divider">
-<a class="dropdown-item" href="/#/logout">
-<span><i class="fas fa-sign-out"></i></span>
-Logout
-</a>
+  <!-- Menu -->
+  <div class="dropdown-menu" role="menu">
+    <div class="dropdown-content box p-0">
+
+      <a class="dropdown-item py-3 px-4" href="/#/account">
+        <span class="mr-2"><i class="fa-solid fa-user"></i></span>
+        Account
+      </a>
+
+      <a class="dropdown-item py-3 px-4" href="/#/forms">
+        <span class="mr-2"><i class="fa-brands fa-wpforms"></i></span>
+        Forms
+      </a>
+
+      <a class="dropdown-item py-3 px-4" target="_blank" href="https://docs.fabform.io">
+        <span class="mr-2"><i class="fa-solid fa-book"></i></span>
+        Documentation
+      </a>
+
+      <a class="dropdown-item py-3 px-4" target="_blank" href="https://fabform.io/contact-us/">
+        <span class="mr-2"><i class="fa-regular fa-message"></i></span>
+        Contact Us
+      </a>
+
+      <hr class="dropdown-divider">
+
+      <a class="dropdown-item py-3 px-4" href="/#/logout">
+        <span class="mr-2"><i class="fas fa-sign-out"></i></span>
+        Logout
+      </a>
+
     </div>
   </div>
 </div>
-{:else}
-
 {/if}
 
 <style>
+  /* Fix text cut-off by letting Bulma handle width naturally */
+  .dropdown-menu {
+    min-width: 220px; /* clean, Bulma-friendly width */
+  }
 
-.dropdown-item {
-text-decoration: none !important;
-     margin: 1;
-     padding-top: 1;    /* Adjust the top padding as needed */
-     padding-bottom: 1;
-}
+  /* Improve dropdown item readability */
+  .dropdown-item {
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .dropdown-item:hover {
+    background: #f5f5f5;
+  }
+
+  /* Icon alignment */
+  .dropdown-item i {
+    width: 18px;
+    text-align: center;
+  }
+
+  /* Button styling consistent with Bulma */
+  .dropdown-trigger .button {
+    border-radius: 8px;
+    border: 1px solid #dbdbdb;
+    transition: background 0.15s ease;
+  }
+
+  .dropdown-trigger .button:hover {
+    background: #fafafa;
+  }
 </style>
 
