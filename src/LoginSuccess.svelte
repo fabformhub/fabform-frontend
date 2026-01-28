@@ -22,7 +22,6 @@
       data = await res.json();
       console.log("ME RESPONSE:", data);
 
-      // Validate user object
       if (data && data.email) {
         user = data;
 
@@ -31,6 +30,12 @@
         tier.set(data.tier);
 
         console.log("User loaded:", user);
+
+        // ⭐ Redirect after stores are set
+        setTimeout(() => {
+          router.goto("/forms");
+        }, 800);
+
       } else {
         console.warn("No valid user, redirecting to login");
         router.goto("/login");
@@ -47,7 +52,6 @@
     console.log("Loading set to false");
   });
 </script>
-<h1 style="background:red;color:white;">I AM VISIBLE</h1>
 
 <section class="section">
   <div class="container has-text-centered">

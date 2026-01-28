@@ -1,7 +1,0 @@
-		<Route path="/forms/*" redirect="/login"/>
-		<Route path="/login"><Login/></Route>
-		<Route path="/signup"><Signup/></Route>
-		<Route path="/forgot-password"><ForgotPassword/></Route>
-                <Route path="/login-success"><LoginSuccess/></Route>
-
-	</div>
