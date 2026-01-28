@@ -1,22 +1,22 @@
 <script>
-  import { Route, router, active } from 'tinro';
-  import { user_id, email, tier } from "./helpers/store.js";
+  import { Route, router, active } from 'tinro'
+  import { user_id, email, tier } from "./helpers/store.js"
 
-  import Authguard from './Authguard.svelte';
-  import Login from './Login.svelte';
-  import Signup from './Signup.svelte';
-  import ForgotPassword from './ForgotPassword.svelte';
-  import LoginSuccess from './LoginSuccess.svelte';
+  import Authguard from './Authguard.svelte'
+  import Login from './Login.svelte'
+  import Signup from './Signup.svelte'
+  import ForgotPassword from './ForgotPassword.svelte'
+  import LoginSuccess from './LoginSuccess.svelte'
 
-  import Forms from './Forms.svelte';
-  import Files from './Files.svelte';
-  import Settings from './Settings.svelte';
-  import Account from './Account.svelte';
-  import SubmissionAPI from './SubmissionAPI.svelte';
-  import Menu from './Menu.svelte';
-  import Logout from './Logout.svelte';
+  import Forms from './Forms.svelte'
+  import Files from './Files.svelte'
+  import Settings from './Settings.svelte'
+  import Account from './Account.svelte'
+  import SubmissionAPI from './SubmissionAPI.svelte'
+  import Menu from './Menu.svelte'
+  import Logout from './Logout.svelte'
 
-  import { SvelteEasyToast } from 'svelte-easy-toast';
+  import { SvelteEasyToast } from 'svelte-easy-toast'
 </script>
 
 <svelte:head>
@@ -27,89 +27,90 @@
   <script defer data-domain="app.fabform.io" src="https://plausible.io/js/script.js"></script>
 </svelte:head>
 
-<div class="container">
-  <img src="/img/logo.png" alt="Logo">
-  <SvelteEasyToast />
-  <div class="bg"></div>
+<div class="app-wrapper">
 
-  <div class="columns">
-    <div class="column is-four-fifths"></div>
-    <div class="column">
+  <!-- NAVBAR -->
+  <nav class="navbar has-shadow px-4 py-3 is-white">
+    <div class="navbar-brand">
+      <a href="/#/" class="navbar-item">
+        <img src="/img/logo.png" alt="FabForm Logo" style="height: 32px;">
+      </a>
+    </div>
+
+    <div class="navbar-end">
       <Menu />
     </div>
-  </div>
+  </nav>
 
-  <!-- ⭐ PUBLIC ROUTE: must be outside Authguard -->
-  <Route path="/login-success">
-    <LoginSuccess />
-  </Route>
+  <SvelteEasyToast />
 
-  <Authguard>
+  <!-- MAIN CONTENT -->
+  <section class="section py-6">
+    <div class="container">
 
-    <!-- ⭐ AUTHENTICATED ROUTES -->
-    <div slot="authed">
-      <Route path="/" redirect="/forms" />
-      <Route path="/login/*" redirect="/forms" />
-
-      <Route path="/forms">
-        <Forms />
+      <!-- Public route outside Authguard -->
+      <Route path="/login-success">
+        <LoginSuccess />
       </Route>
 
-      <Route path="/files/:id">
-        <Files />
-      </Route>
+      <Authguard>
 
-      <Route path="/settings/:id">
-        <Settings />
-      </Route>
+        <!-- AUTHENTICATED ROUTES -->
+        <div slot="authed">
+          <Route path="/" redirect="/forms" />
+          <Route path="/login/*" redirect="/forms" />
 
-      <Route path="/submission-api/:id">
-        <SubmissionAPI />
-      </Route>
-
-      <Route path="/account/">
-        <Account />
-      </Route>
-
-      <Route path="/logout/">
-        <Logout />
-      </Route>
-    </div>
-
-    <!-- ⭐ PUBLIC ROUTES -->
-    <div slot="not_authed">
-
-      <Route path="/">
-        <p class="is-pulled-right">
-          <a href="/#/signup" class="button is-primary m-2" use:active>Sign Up</a>
-        </p>
-        <p class="is-pulled-right">
-          <a href="/#/login" class="button is-light m-2" use:active>Login</a>
-        </p>
-
-        <div class="has-text-centered mt-5">
-          <figure class="image is-256x256 is-inline-block">
-            <h3 class="title is-3">The smart forms backend</h3>
-          </figure>
+          <Route path="/forms"><Forms /></Route>
+          <Route path="/files/:id"><Files /></Route>
+          <Route path="/settings/:id"><Settings /></Route>
+          <Route path="/submission-api/:id"><SubmissionAPI /></Route>
+          <Route path="/account/"><Account /></Route>
+          <Route path="/logout/"><Logout /></Route>
         </div>
-      </Route>
 
-      <Route path="/forms/*" redirect="/login" />
-      <Route path="/login"><Login /></Route>
-      <Route path="/signup"><Signup /></Route>
-      <Route path="/forgot-password"><ForgotPassword /></Route>
+        <!-- PUBLIC ROUTES -->
+        <div slot="not_authed">
 
-      <!-- ⭐ REMOVED LoginSuccess from here -->
+          <Route path="/">
+            <div class="box has-text-centered py-6 px-5" style="max-width: 600px; margin: 0 auto;">
+              <h1 class="title is-2 mb-4">The Smart Forms Backend</h1>
+              <p class="subtitle is-5 mb-6">
+                Collect form submissions instantly.<br>
+                No backend required.
+              </p>
+
+              <div class="buttons is-centered mt-4">
+                <a href="/#/signup" class="button is-primary is-medium">Sign Up</a>
+                <a href="/#/login" class="button is-light is-medium">Login</a>
+              </div>
+            </div>
+          </Route>
+
+          <Route path="/forms/*" redirect="/login" />
+          <Route path="/login"><Login /></Route>
+          <Route path="/signup"><Signup /></Route>
+          <Route path="/forgot-password"><ForgotPassword /></Route>
+
+        </div>
+
+      </Authguard>
+
     </div>
-
-  </Authguard>
+  </section>
 </div>
 
 <style>
   :global(html, body) {
     height: 100%;
     margin: 0;
-    background: linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%);
+    background: linear-gradient(135deg, #f8f9fb 0%, #eef1f6 100%);
+    font-family: "Inter", sans-serif;
+  }
+
+  .app-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
 </style>
 
