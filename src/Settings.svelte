@@ -75,8 +75,10 @@ toast({
 }
 
 function saveEndpoint() { 
-  let payload = {id:id, name:name, respEmail :respEmail, respEmailSubject :respEmailSubject, message:message, emailNotification:emailNotification,autoResp:autoResp, autoRespEmail:autoRespEmail, autoRespEmailSubject:autoRespEmailSubject,emailTemplate:emailTemplate,autoRespTemplate:autoRespTemplate,googleSheetId:googleSheetId,webhookUrl:webhookUrl,redirectUrl:removeProtocol(redirectUrl),replyTo:replyTo}
- postJSON(`endpoint/${id}`,payload,(data) =>{
+
+let payload = {id:id, name:name, respEmail :respEmail, respEmailSubject :respEmailSubject, message:message, emailNotification:emailNotification,autoResp:autoResp, autoRespEmail:autoRespEmail, autoRespEmailSubject:autoRespEmailSubject,emailTemplate:emailTemplate,autoRespTemplate:autoRespTemplate,googleSheetId:googleSheetId,webhookUrl:webhookUrl,redirectUrl:removeProtocol(redirectUrl),replyTo:replyTo}
+
+postJSON(`endpoint/${id}`,payload,(data) =>{
 	   toast({
 		type: 'success', // dark, danger, success, info, warning, default, error
 		position: 'top-left', // top-left, top-center, bottom-left, bottom-right, bottom-center

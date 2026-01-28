@@ -67,10 +67,21 @@ postJSON('login',{email: fields.email,password: fields.password},
 <section class="hero">
   <div class="hero-body">
     <div class="container">
-<p class="title has-text-centered">Login</p>
+	    <p class="title has-text-centered">Login</p>
+	    
       <div class="columns is-centered">
-        <div class="column is-5-tablet is-4-desktop is-3-widescreen">
-          <form on:submit|preventDefault={submitHandler} class="box" novalidate   >
+	      <div class="column is-5-tablet is-4-desktop is-3-widescreen">
+
+<!-- google social login -->
+
+<a class="button is-light is-fullwidth" href="https://fabform.io/f/auth/google">
+<span class="icon">
+<img src="https://developers.google.com/identity/images/g-logo.png" alt="Google logo" width="18" height="18" />
+  </span>
+  <span>Continue with Google</span>
+</a>
+
+<form on:submit|preventDefault={submitHandler} class="box" novalidate   >
 <div class="field">
   <label for="email" class="label">Email</label>
   <div class="control has-icons-left has-icons-right">
@@ -102,7 +113,6 @@ postJSON('login',{email: fields.email,password: fields.password},
 <p class="help is-danger">{errors.password}</p>
  </div>
 </div>
-
 <p><a href="/#/forgot-password">Forgot Password?</a> </p>
 
 <div class="field">

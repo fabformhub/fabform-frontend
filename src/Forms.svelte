@@ -197,7 +197,7 @@ selectedEndpointId = id
 <MenuBar id={selectedEndpointId} hideHomeButton={true} />
 <h1 class="m-3 has-text-centered has-text-weight-bold">Form ID: {selectedEndpointId}</h1>
 {#if headers.length == 0}
-<p class="subtitle has-text-centered my-5">There are no form submissions for Form ID: {selectedEndpointId}</p>
+<p class="subtitle has-text-centered my-5">Loading Form Submissions for Form ID: {selectedEndpointId}</p>
 {:else}
 <table class="table is-striped is-hoverable">
       <tr>

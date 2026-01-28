@@ -40,16 +40,16 @@ if (fields.confirmpassword.trim().length <1) {
 if (valid) {
 postJSON('check-email',{email: fields.email},
 (data) => {
-    if (data.success == "true") {
+    if (data.success === true) {
       errors.login ="email already exists in our database." 
      } else {
          postJSON('signup',{email: fields.email,password: fields.password},
            (data) => {
-		   if (data.success == "true") {
+		   if (data.success === true) {
 
  toast({
 	                 type: 'warning', // dark, danger, success, info, warning, default, error
-	                 position: 'top-center', // top-left, top-center, bottom-left, bottom-right, bottom-center
+	                position: 'top-center', // top-left, top-center, bottom-left, bottom-right, bottom-center
 			 text: `Please confirm your email address with the link sent to ${fields.email} 
      If you can't find it, check your spam folder.`,
 			title: 'Confirm Email Address',
@@ -65,7 +65,18 @@ postJSON('check-email',{email: fields.email},
 <section class="hero">
   <div class="hero-body">
     <div class="container">
-<p class="title has-text-centered">Sign Up</p>
+	    <p class="title has-text-centered">Sign Up</p>
+
+    <div class="columns is-centered">
+      <div class="column is-half has-text-centered">
+        <p class="is-size-5 has-text-weight-medium">
+          Please use a valid email address when signing up. We’ll send a confirmation email to that address to verify your account. If you don't see the email. Check your SPAM folder.
+        </p>
+      </div>
+    </div>
+  </div>
+
+
       <div class="columns is-centered">
         <div class="column is-5-tablet is-4-desktop is-3-widescreen">
           <form on:submit|preventDefault={submithandler} class="box" novalidate   >
