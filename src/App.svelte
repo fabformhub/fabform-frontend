@@ -7,6 +7,7 @@
  import Login from './Login.svelte';
  import Signup from './Signup.svelte';
  import ForgotPassword from './ForgotPassword.svelte';
+ import LoginSuccess from './LoginSuccess.svelte';
  import Forms from './Forms.svelte'
  import Files from './Files.svelte'
  import Settings from './Settings.svelte'
@@ -68,6 +69,7 @@
 		<Route path="/login"><Login/></Route>
 		<Route path="/signup"><Signup/></Route>
 		<Route path="/forgot-password"><ForgotPassword/></Route>
+		<Route path="/login-success"><LoginSuccess/></Route>
 	</div>
 </Authguard>
 </div>
