@@ -1,102 +1,59 @@
 <script>
-  import { onMount } from "svelte";
-  import { email, user_id, tier } from "./helpers/store.js";
-  import { router } from "tinro";
+  import { onMount } from "svelte"
+  import { email, user_id, tier } from "./helpers/store.js"
+  import { router } from "tinro"
 
-  let user = null;
-  let loading = true;
-  let data = null;
-
-  console.log("login-success component loaded");
+  let loading = true
+  let data = null
 
   onMount(async () => {
-    console.log("onMount fired");
-
     try {
       const res = await fetch("https://fabform.io/f/me", {
         credentials: "include"
-      });
+      })
 
-      console.log("Fetch started:", res.status);
-
-      data = await res.json();
-      console.log("ME RESPONSE:", data);
+      data = await res.json()
 
       if (data && data.email) {
-        user = data;
+        email.set(data.email)
+        user_id.set(data.id)
+        tier.set(data.tier)
 
-        email.set(data.email);
-        user_id.set(data.id);
-        tier.set(data.tier);
-
-        console.log("User loaded:", user);
-
-        // ⭐ Redirect after stores are set
+        // Smooth redirect
         setTimeout(() => {
-          router.goto("/forms");
-        }, 800);
-
+          router.goto("/forms")
+        }, 600)
       } else {
-        console.warn("No valid user, redirecting to login");
-        router.goto("/login");
-        return;
+        router.goto("/login")
+        return
       }
 
     } catch (err) {
-      console.error("Failed to load user", err);
-      router.goto("/login");
-      return;
+      router.goto("/login")
+      return
     }
 
-    loading = false;
-    console.log("Loading set to false");
-  });
+    loading = false
+  })
 </script>
 
 <section class="section">
-  <div class="container has-text-centered">
-    <p class="title is-4">Just Loaded Success Page</p>
-    <p>User email is:</p>
-    {#if data}
-      {data.email}
-    {/if}
+  <div class="container has-text-centered" style="max-width: 420px;">
+
+    <!-- Clean loading state -->
+    <div class="box py-6 px-5">
+
+      <span class="icon is-large has-text-primary mb-3">
+        <i class="fas fa-spinner fa-pulse fa-3x"></i>
+      </span>
+
+      <h1 class="title is-4 mt-3">Signing you in…</h1>
+      <p class="subtitle is-6 mb-5">Preparing your dashboard</p>
+
+      <progress class="progress is-small is-primary" max="100">Loading</progress>
+
+    </div>
+
   </div>
 </section>
-
-{#if loading}
-  <section class="section">
-    <div class="container has-text-centered">
-      <p class="title is-4">Signing you in…</p>
-      <progress class="progress is-small is-primary" max="100">Loading</progress>
-    </div>
-  </section>
-{:else}
-  <section class="section">
-    <div class="container" style="max-width: 480px;">
-      <div class="box has-text-centered">
-
-        <span class="icon is-large has-text-success">
-          <i class="fas fa-check-circle fa-3x"></i>
-        </span>
-
-        <h1 class="title is-4 mt-3">Login Successful</h1>
-        <p class="subtitle is-6">Welcome back!</p>
-
-        {#if user}
-          <div class="content has-text-left mt-4">
-            <p><strong>Email:</strong> {user.email}</p>
-            <p><strong>User ID:</strong> {user.id}</p>
-            <p><strong>Tier:</strong> {user.tier}</p>
-          </div>
-        {:else}
-          <p>No user loaded</p>
-        {/if}
-
-        <p class="has-text-grey mt-4">
-          Redirecting to your dashboard…
-        </p>
-      </div>
-    </div>
-  </section>
-{/if}
 
