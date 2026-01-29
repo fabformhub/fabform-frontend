@@ -72,9 +72,33 @@
           <h1 class="title has-text-centered mb-5">Welcome Back</h1>
 
           <!-- GOOGLE LOGIN BUTTON -->
-          <a class="google-btn" href="https://fabform.io/f/auth/google">
-            <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google logo" />
+          <a
+            href="https://fabform.io/f/auth/google"
+            class="button is-fullwidth is-light mb-3"
+            style="display: flex; align-items: center; justify-content: center; gap: .5rem;"
+          >
+            <img
+              src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+              alt="Google"
+              width="18"
+              height="18"
+            />
             <span>Continue with Google</span>
+          </a>
+
+          <!-- GITHUB LOGIN BUTTON -->
+          <a
+            href="https://fabform.io/f/auth/github"
+            class="button is-fullwidth is-dark mb-4"
+            style="display: flex; align-items: center; justify-content: center; gap: .5rem;"
+          >
+            <img
+              src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+              alt="GitHub"
+              width="20"
+              height="20"
+            />
+            <span>Continue with GitHub</span>
           </a>
 
           <div class="or-divider">or</div>
@@ -160,32 +184,7 @@
     box-shadow: 0 8px 24px rgba(0,0,0,0.06);
   }
 
-  .google-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: .75rem;
-    width: 100%;
-    padding: .75rem;
-    border-radius: 8px;
-    background: white;
-    border: 1px solid #dbdbdb;
-    font-weight: 600;
-    transition: all .15s ease;
-    margin-bottom: 1.25rem;
-  }
-
-  .google-btn img {
-    width: 20px;
-    height: 20px;
-  }
-
-  .google-btn:hover {
-    background: #fafafa;
-    border-color: #cfcfcf;
-    transform: translateY(-1px);
-  }
-
+  /* Divider */
   .or-divider {
     text-align: center;
     margin: 1rem 0;
