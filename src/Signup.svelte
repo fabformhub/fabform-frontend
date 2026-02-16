@@ -89,7 +89,9 @@
         text: `Please confirm your email address with the link sent to ${e}. If you can't find it, check your spam folder.`
       });
 
-      window.location.href = "/login";
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 3000);
     } else {
       errors.login = signupData.message || "Signup failed. Please try again.";
     }
