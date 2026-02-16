@@ -11,9 +11,55 @@
   let password = "";
 
   function signupWithEmail() {
-    // Your existing email signup logic goes here
-    console.log("Signup with:", email, password);
-  }
+ valid = true
+    errors.email = ''
+    errors.password = ''
+    errors.confirmpassword = ''
+    errors.login = ''
+
+    if (!fields.email.trim()) {
+      valid = false
+      errors.email = 'Email is required'
+    } else if (!isEmail(fields.email.trim())) {
+      valid = false
+      errors.email = 'Please enter a valid email'
+    }
+
+    if (!fields.password.trim()) {
+      valid = false
+      errors.password = 'Password is required'
+    }
+
+    if (!fields.confirmpassword.trim()) {
+      valid = false
+      errors.confirmpassword = 'Confirmation password is required'
+    }
+
+    if (fields.password && fields.confirmpassword && fields.password !== fields.confirmpassword) {
+      valid = false
+      errors.password = 'Password and confirmation password do not match.'
+    }
+
+    if (valid) {
+      postJSON('check-email', { email: fields.email }, (data) => {
+        if (data.success === true) {
+          errors.login = "Email already exists in our database."
+        } else {
+          postJSON('signup', { email: fields.email, password: fields.password }, (data) => {
+            if (data.success === true) {
+              toast({
+                type: 'warning',
+                position: 'top-center',
+                text: `Please confirm your email address with the link sent to ${fields.email}. If you can't find it, check your spam folder.`,
+                title: 'Confirm Email Address',
+              })
+              router.goto('login')
+            }
+          })
+        }
+      })
+    }
+  } 
 </script>
 
 <section class="section">
