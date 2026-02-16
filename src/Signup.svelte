@@ -91,7 +91,7 @@
 
       setTimeout(() => {
         window.location.href = "/login";
-      }, 3000);
+      }, 5000);
     } else {
       errors.login = signupData.message || "Signup failed. Please try again.";
     }
