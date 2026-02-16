@@ -1,4 +1,15 @@
 <script>
+  let email = "";
+  let password = "";
+  let confirmPassword = "";
+
+  let errors = {
+    email: "",
+    password: "",
+    confirmPassword: "",
+    login: ""
+  };
+
   function loginWithGoogle() {
     window.location.href = "https://fabform.io/f/auth/google";
   }
@@ -7,59 +18,76 @@
     window.location.href = "https://fabform.io/f/auth/github";
   }
 
-  let email = "";
-  let password = "";
+  function isEmail(v) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  }
 
-  function signupWithEmail() {
- valid = true
-    errors.email = ''
-    errors.password = ''
-    errors.confirmpassword = ''
-    errors.login = ''
+  async function signupWithEmail() {
+    errors = { email: "", password: "", confirmPassword: "", login: "" };
+    let valid = true;
 
-    if (!fields.email.trim()) {
-      valid = false
-      errors.email = 'Email is required'
-    } else if (!isEmail(fields.email.trim())) {
-      valid = false
-      errors.email = 'Please enter a valid email'
+    const e = email.trim();
+    const p = password.trim();
+    const cp = confirmPassword.trim();
+
+    // email validation
+    if (!e) {
+      errors.email = "Email is required";
+      valid = false;
+    } else if (!isEmail(e)) {
+      errors.email = "Please enter a valid email";
+      valid = false;
     }
 
-    if (!fields.password.trim()) {
-      valid = false
-      errors.password = 'Password is required'
+    // password validation
+    if (!p) {
+      errors.password = "Password is required";
+      valid = false;
     }
 
-    if (!fields.confirmpassword.trim()) {
-      valid = false
-      errors.confirmpassword = 'Confirmation password is required'
+    // confirm password validation
+    if (!cp) {
+      errors.confirmPassword = "Confirmation password is required";
+      valid = false;
+    } else if (p !== cp) {
+      errors.confirmPassword = "Passwords do not match";
+      valid = false;
     }
 
-    if (fields.password && fields.confirmpassword && fields.password !== fields.confirmpassword) {
-      valid = false
-      errors.password = 'Password and confirmation password do not match.'
+    if (!valid) return;
+
+    // check email
+    const checkRes = await fetch("/f/check-email", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: e })
+    });
+
+    const checkData = await checkRes.json();
+
+    if (checkData.success === true) {
+      errors.login = "Email already exists in our database.";
+      return;
     }
 
-    if (valid) {
-      postJSON('check-email', { email: fields.email }, (data) => {
-        if (data.success === true) {
-          errors.login = "Email already exists in our database."
-        } else {
-          postJSON('signup', { email: fields.email, password: fields.password }, (data) => {
-            if (data.success === true) {
-              toast({
-                type: 'warning',
-                position: 'top-center',
-                text: `Please confirm your email address with the link sent to ${fields.email}. If you can't find it, check your spam folder.`,
-                title: 'Confirm Email Address',
-              })
-              router.goto('login')
-            }
-          })
-        }
-      })
+    // signup
+    const signupRes = await fetch("/f/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: e, password: p })
+    });
+
+    const signupData = await signupRes.json();
+
+    if (signupData.success === true) {
+      alert(
+        `Please confirm your email address with the link sent to ${e}. If you can't find it, check your spam folder.`
+      );
+      window.location.href = "/login";
+    } else {
+      errors.login = signupData.message || "Signup failed. Please try again.";
     }
-  } 
+  }
 </script>
 
 <section class="section">
@@ -117,6 +145,9 @@
             bind:value={email}
           />
         </div>
+        {#if errors.email}
+          <p class="help is-danger">{errors.email}</p>
+        {/if}
       </div>
 
       <div class="field">
@@ -129,11 +160,33 @@
             bind:value={password}
           />
         </div>
+        {#if errors.password}
+          <p class="help is-danger">{errors.password}</p>
+        {/if}
       </div>
+
+      <div class="field">
+        <label class="label">Confirm Password</label>
+        <div class="control">
+          <input
+            class="input"
+            type="password"
+            placeholder="••••••••"
+            bind:value={confirmPassword}
+          />
+        </div>
+        {#if errors.confirmPassword}
+          <p class="help is-danger">{errors.confirmPassword}</p>
+        {/if}
+      </div>
+
+      {#if errors.login}
+        <p class="help is-danger">{errors.login}</p>
+      {/if}
 
       <button
         class="button is-primary is-fullwidth mt-3"
-        on:click={signupWithEmail}
+        on:click|preventDefault={signupWithEmail}
       >
         Create account
       </button>

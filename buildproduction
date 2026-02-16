@@ -1,6 +1,5 @@
 npm run build
-cd public
-find /var/www/fabform-app  -mindepth 1 -delete
+cd dist
+find /var/www/fabform-app -mindepth 1 -delete
 cp -a . /var/www/fabform-app
-
 
