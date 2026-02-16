@@ -1,4 +1,6 @@
 <script>
+  import { SvelteEasyToast, toast } from 'svelte-easy-toast'
+
   let email = "";
   let password = "";
   let confirmPassword = "";
@@ -80,9 +82,13 @@
     const signupData = await signupRes.json();
 
     if (signupData.success === true) {
-      alert(
-        `Please confirm your email address with the link sent to ${e}. If you can't find it, check your spam folder.`
-      );
+      toast({
+        type: 'warning',
+        position: 'top-center',
+        title: 'Confirm Email Address',
+        text: `Please confirm your email address with the link sent to ${e}. If you can't find it, check your spam folder.`
+      });
+
       window.location.href = "/login";
     } else {
       errors.login = signupData.message || "Signup failed. Please try again.";
