@@ -15,7 +15,7 @@
   import SubmissionAPI from './SubmissionAPI.svelte'
   import Menu from './Menu.svelte'
   import Logout from './Logout.svelte'
-
+  import logo from './assets/logo.png';
   import { SvelteEasyToast } from 'svelte-easy-toast'
 </script>
 
@@ -28,18 +28,18 @@
 </svelte:head>
 
 <div class="app-wrapper">
+	<nav class="navbar has-shadow px-4 py-3 is-white">
+  <div class="navbar-brand">
+    <a href="/" class="navbar-item">
+<img src="{logo}" alt="logo" class="navbar-logo image is-64x64">
 
-  <!-- NAVBAR -->
-  <nav class="navbar has-shadow px-4 py-3 is-white">
-    <div class="navbar-brand">
-      <a href="/#/" class="navbar-item">
-        <img src="/img/logo.png" alt="FabForm Logo" style="height: 32px;">
-      </a>
-    </div>
+    </a>
+  </div>
 
     <div class="navbar-end">
       <Menu />
     </div>
+
   </nav>
 
   <SvelteEasyToast />
@@ -112,5 +112,16 @@
     display: flex;
     flex-direction: column;
   }
+
+.navbar-logo {
+  height: 120px !important;
+  width: auto !important;
+  max-height: none !important;
+  max-width: none !important;
+  object-fit: contain;
+  display: block;
+}
+
+
 </style>
 

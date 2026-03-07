@@ -7,6 +7,7 @@
   import { getJSON, postJSON } from "./helpers/api.js"
   import { isEmail, isValidWebsite } from "./helpers/validation.js"
   import { SvelteEasyToast, toast } from 'svelte-easy-toast';
+  import offer from './assets/offer.png';
 
   export let name
   export let totalSubmissions = 0;
@@ -132,21 +133,65 @@
 
 <main>
 
-  {#if $tier == 0}
-    <section class="section">
-      <div class="container">
-        <div class="notification alert">
-          <strong>Limited-time offer:</strong>
-          $59 for lifetime Pro access.
-          <a href="https://buy.stripe.com/cN24hWaHzadp0jCbIS" target="_blank">
-            <strong>Buy once and use forever</strong>
-          </a>
-        </div>
-      </div>
-    </section>
-  {/if}
+	<div class="container">
 
-  <div class="container">
+
+
+{#if $tier == 0}
+<div class="container mt-6">
+
+  <div class="box has-text-centered py-6 px-5"
+       style="border-radius: 14px; border: 1px solid #f2c94c;">
+
+    <h2 class="title is-3 mb-3" style="font-weight: 700;">
+      Free Tier Ending Soon
+    </h2>
+
+    <p class="subtitle is-5 mb-5"
+       style="max-width: 620px; margin: 0 auto; line-height: 1.6;">
+      Your forms are currently running on the free tier, which is being retired.
+      Upgrade now to keep everything live and unlock the full FabForm experience —
+      including instant email notifications for every submission.
+    </p>
+
+    <!-- Image inside the notice -->
+    <figure class="image pay-nudge mb-5" style="width: 40%; margin: 0 auto;">
+      <img src="{offer}" alt="offer">
+    </figure>
+
+    <div class="mt-4 mb-5">
+      <a href="https://buy.stripe.com/cN24hWaHzadp0jCbIS" target="_blank">
+        <button
+          class="button is-medium px-6 py-4"
+          style="
+            border-radius: 10px;
+            font-size: 1.15rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #ffb347, #ff8c42);
+            color: #fff;
+            border: none;
+            box-shadow: 0 4px 12px rgba(255, 140, 66, 0.35);
+          ">
+          Upgrade Now — Keep Your Forms Live
+        </button>
+      </a>
+    </div>
+
+    <p class="is-size-7 mt-3" style="opacity: .65;">
+      All premium features shown above are included with your upgrade.
+    </p>
+
+    <p class="is-size-7 mt-2" style="opacity: .65;">
+      Once the free tier is removed, your forms will stop accepting submissions.
+    </p>
+
+  </div>
+
+</div>
+{/if}
+
+
+
 
     {#if errorMessage}      
       <div class="notification is-warning">{errorMessage}</div>
@@ -198,16 +243,8 @@
             </ul>
           {/if}
 
-          {#if $tier == 0}
-            <div class="mt-5 has-text-centered">
-              <a target="_blank" href="https://buy.stripe.com/cN24hWaHzadp0jCbIS">
-                <img src="/img/pricing.png">
-              </a>
-            </div>
-          {/if}
         </aside>
-
-        {#if $tier == 0}
+           {#if $tier == 0}
           <progress class="progress is-link" value="{totalSubmissions}" max="50"></progress>
           <p>{totalSubmissions} of 50 form submission limit</p>
           <p>{totalSubmissions / 50 * 100}% used</p>
@@ -424,5 +461,16 @@
     margin-left: auto;
     margin-right: auto;
   }
+
+.pay-nudge {
+  animation: pulse 1.4s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+
 </style>
 
