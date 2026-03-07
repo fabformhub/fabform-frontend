@@ -136,29 +136,36 @@
 	<div class="container">
 
 
-
 {#if $tier == 0}
 <div class="container mt-6">
 
   <div class="box has-text-centered py-6 px-5"
        style="border-radius: 14px; border: 1px solid #f2c94c;">
 
-    <h2 class="title is-3 mb-3" style="font-weight: 700;">
+    <!-- MAIN URGENT WARNING -->
+    <h2 class="title is-3 mb-3 has-text-danger" style="font-weight: 700;">
       Free Tier Ending Soon
     </h2>
 
-    <p class="subtitle is-5 mb-5"
+    <p class="subtitle is-5 mb-4 has-text-danger-dark"
        style="max-width: 620px; margin: 0 auto; line-height: 1.6;">
       Your forms are currently running on the free tier, which is being retired.
       Upgrade now to keep everything live and unlock the full FabForm experience —
       including instant email notifications for every submission.
     </p>
 
-    <!-- Image inside the notice -->
+    <!-- SECONDARY WARNING -->
+    <p class="subtitle is-6 mb-5 has-text-danger-dark"
+       style="max-width: 620px; margin: 0 auto; line-height: 1.6;">
+      Once the free tier is removed, your forms will stop accepting submissions.
+    </p>
+
+    <!-- IMAGE -->
     <figure class="image pay-nudge mb-5" style="width: 40%; margin: 0 auto;">
       <img src="{offer}" alt="offer">
     </figure>
 
+    <!-- CTA BUTTON -->
     <div class="mt-4 mb-5">
       <a href="https://buy.stripe.com/cN24hWaHzadp0jCbIS" target="_blank">
         <button
@@ -177,21 +184,15 @@
       </a>
     </div>
 
-    <p class="is-size-7 mt-3" style="opacity: .65;">
+    <!-- POSITIVE AFFIRMATION -->
+    <p class="is-size-7 mt-3 has-text-success-dark has-text-weight-semibold">
       All premium features shown above are included with your upgrade.
-    </p>
-
-    <p class="is-size-7 mt-2" style="opacity: .65;">
-      Once the free tier is removed, your forms will stop accepting submissions.
     </p>
 
   </div>
 
 </div>
 {/if}
-
-
-
 
     {#if errorMessage}      
       <div class="notification is-warning">{errorMessage}</div>
