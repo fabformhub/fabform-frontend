@@ -26,6 +26,7 @@ let autoRespEmailSubject ='';
 let autoResp = false;
 let autoRespTemplate ='';
 let webhookUrl = '';
+let telegramChatId = '';
 
 function openModal() {
   isOpenModal = true;
@@ -51,6 +52,7 @@ autoRespTemplate = data.auto_resp_template
 googleSheetId = data.google_sheet_id
 webhookUrl    = data.webhook_url
 redirectUrl   = data.redirect_url
+telegramChatId = data.telegram_chat_id
 })
  })
 
@@ -76,7 +78,7 @@ toast({
 
 function saveEndpoint() { 
 
-let payload = {id:id, name:name, respEmail :respEmail, respEmailSubject :respEmailSubject, message:message, emailNotification:emailNotification,autoResp:autoResp, autoRespEmail:autoRespEmail, autoRespEmailSubject:autoRespEmailSubject,emailTemplate:emailTemplate,autoRespTemplate:autoRespTemplate,googleSheetId:googleSheetId,webhookUrl:webhookUrl,redirectUrl:removeProtocol(redirectUrl),replyTo:replyTo}
+let payload = {id:id, name:name, respEmail :respEmail, respEmailSubject :respEmailSubject, message:message, emailNotification:emailNotification,autoResp:autoResp, autoRespEmail:autoRespEmail, autoRespEmailSubject:autoRespEmailSubject,emailTemplate:emailTemplate,autoRespTemplate:autoRespTemplate,googleSheetId:googleSheetId,webhookUrl:webhookUrl,redirectUrl:removeProtocol(redirectUrl),replyTo:replyTo,telegramChatId:telegramChatId}
 
 postJSON(`endpoint/${id}`,payload,(data) =>{
 	   toast({
@@ -126,7 +128,33 @@ router.goto("/forms")
 <a class="m-1 button is-info is-rounded" target="_blank" href="https://buy.stripe.com/cN24hWaHzadp0jCbIS">Upgrade to <span class="tag is-white is-rounded ml-1 mr-1 pl-1 pr-1 has-text-black">PRO</span> to unlock all these great features below</a>
 {/if}
 
+<div class="field">
+  <label for="telegramChatId" class="font-semibold text-gray-800">
+    Telegram Notifications
+  </label>
+  <div class="control mt-2">
+    <input
+      class="input mt-1 p-3 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+      name="telegramChatId"
+      bind:value="{telegramChatId}"
+      type="text"
+      placeholder="Enter your Telegram Chat ID to receive notifications"
+      disabled={$tier == 0}
+    />
+  </div>
 
+  <div class="text-sm text-gray-600 mt-2">
+    ⚠️ <strong>Opt-in feature:</strong> To receive Telegram notifications from form submissions, follow these steps:
+    <ol class="list-decimal list-inside mt-1">
+      <li>Start the bot by opening
+        <a href="https://t.me/fabform_bot" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline">@fabform_bot</a> in Telegram and pressing <code>/start</code>.</li>
+      <li>Get your Chat ID from
+        <a href="https://t.me/userinfobot" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline">@userinfobot</a>.</li>
+      <li>Enter your Chat ID in the field above.</li>
+    </ol>
+  </div>
+
+</div>
 <div class="field">
   <label for="respEmail">Notifications Email</label>
  <div class="control">
