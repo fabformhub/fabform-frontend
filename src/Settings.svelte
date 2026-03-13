@@ -76,163 +76,316 @@ toast({
         router.goto("/forms")
   })
 }
+function saveEndpoint() {
+  const payload = {
+    id,
+    name,
+    respEmail,
+    respEmailSubject,
+    message,
+    emailNotification,
+    autoResp,
+    autoRespEmail,
+    autoRespEmailSubject,
+    emailTemplate,
+    autoRespTemplate,
+    googleSheetId,
+    webhookUrl,
+    redirectUrl: removeProtocol(redirectUrl),
+    replyTo,
+    telegramChatId
+  };
 
-function saveEndpoint() { 
+  postJSON(`endpoint/${id}`, payload, () => {
+    toast({
+      type: 'success',
+      position: 'top-left',
+      text: 'Changes Saved',
+      title: 'Success'
+    });
+  });
 
-let payload = {id:id, name:name, respEmail :respEmail, respEmailSubject :respEmailSubject, message:message, emailNotification:emailNotification,autoResp:autoResp, autoRespEmail:autoRespEmail, autoRespEmailSubject:autoRespEmailSubject,emailTemplate:emailTemplate,autoRespTemplate:autoRespTemplate,googleSheetId:googleSheetId,webhookUrl:webhookUrl,redirectUrl:removeProtocol(redirectUrl),replyTo:replyTo,telegramChatId:telegramChatId}
-
-postJSON(`endpoint/${id}`,payload,(data) =>{
-	   toast({
-		type: 'success', // dark, danger, success, info, warning, default, error
-		position: 'top-left', // top-left, top-center, bottom-left, bottom-right, bottom-center
-		text: 'Changes Saved',
-		title: 'Success',
-	    });
- })
-router.goto("/forms")
+  router.goto("/forms");
 }
+
+
 </script>
-
-<main>
-
 <div class="container">
-<h1 class="title has-text-centered">Settings Form ID: {id}</h1>
-<MenuBar id={id} />
-<div>
-<button class="button is-link m-5" on:click={saveEndpoint}>Save Changes</button>
-<div class="columns">
-<div class="column is-10 m-5">
-<div class="field">
-  <label for="name">Form Name</label>
- <div class="control">
-  <input class="input" name="name" bind:value="{name}" type="text" placeHolder="Give your form a name">
- </div>
-</div>
+  <h1 class="title has-text-centered">Settings Form ID: {id}</h1>
+
+  <MenuBar id={id} />
+
+<button class="button is-primary is-medium save-button m-5" on:click={saveEndpoint}>
+  <span class="icon">
+    <i class="fas fa-check-circle"></i>
+  </span>
+  <span>Save Changes</span>
+</button>
+
+  <div class="columns is-mobile is-multiline">
+    <div class="column is-12-tablet is-10-desktop m-5">
+
+      <!-- ========================= -->
+      <!-- FORM BASICS -->
+      <!-- ========================= -->
+      <h2 class="title is-5 mt-6">Form Basics</h2>
+
+      <div class="field mb-4">
+        <label class="label" for="name">Form Name</label>
+        <div class="control">
+          <input
+            id="name"
+            class="input is-medium premium-input"
+            name="name"
+            bind:value="{name}"
+            type="text"
+            placeholder="Give your form a name"
+          >
+        </div>
+      </div>
+
+      <div class="field mb-4">
+        <label class="label" for="message">Form Message</label>
+        <div class="control">
+          <textarea
+            id="message"
+            name="message"
+            class="textarea is-medium premium-input"
+            rows="10"
+            cols="60"
+            bind:value={message}
+            placeholder="Enter message on form after form submitted"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="field mb-4">
+        <div class="control">
+          <label class="checkbox">
+            <input type="checkbox" bind:checked={autoResp}>
+            Send Auto-response Email
+          </label>
+        </div>
+      </div>
+
+      {#if $tier == 0}
+        <UpgradeButton />
+      {/if}
+
+      <!-- ========================= -->
+      <!-- TELEGRAM NOTIFICATIONS -->
+      <!-- ========================= -->
+      <h2 class="title is-5 mt-6">Telegram Notifications</h2>
+
+      <div class="field mb-4">
+        <label class="label" for="telegramChatId">Telegram Chat ID</label>
+        <div class="control">
+          <input
+            id="telegramChatId"
+            class="input is-medium premium-input"
+            name="telegramChatId"
+            bind:value="{telegramChatId}"
+            type="text"
+            placeholder="Enter your Telegram Chat ID to receive notifications"
+          >
+        </div>
+
+        <div class="content mt-2">
+          <p><strong>Enable Telegram notifications for new form submissions:</strong></p>
+          <ol>
+            <li>Open <a href="https://t.me/fabform_bot" target="_blank">@fabform_bot</a> in Telegram and press <code>/start</code> to activate the bot.</li>
+            <li>Retrieve your Chat ID from <a href="https://t.me/userinfobot" target="_blank">@userinfobot</a>.</li>
+            <li>Enter your Chat ID above to begin receiving notifications.</li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- ========================= -->
+      <!-- EMAIL NOTIFICATIONS -->
+      <!-- ========================= -->
+      <h2 class="title is-5 mt-6">Email Notifications</h2>
+
+      <div class="box">
+
+        <div class="field mb-4">
+          <label class="label" for="respEmail">Notifications Email</label>
+          <div class="control">
+            <input
+              id="respEmail"
+              class="input is-medium premium-input"
+              name="respEmail"
+              bind:value="{respEmail}"
+              type="email"
+              placeholder="Enter email to send form submission notifications"
+            >
+          </div>
+        </div>
+
+        <div class="field mb-4">
+          <label class="label" for="respEmailSubject">Email Subject</label>
+          <div class="control">
+            <input
+              id="respEmailSubject"
+              class="input is-medium premium-input"
+              name="respEmailSubject"
+              bind:value="{respEmailSubject}"
+              type="text"
+              placeholder="Enter email subject for form submission notifications"
+            >
+          </div>
+        </div>
+
+        <div class="field mb-4">
+          <div class="control">
+            <label class="checkbox">
+              <input type="checkbox" bind:checked={emailNotification}>
+              Send Email Notifications
+            </label>
+          </div>
+        </div>
+
+        <div class="notification is-info is-light mt-2">
+          You can insert form field values into your email template using their <strong>name</strong> attribute.  
+          Example: <code>&#123;firstName&#125;</code>
+        </div>
+
+        <div class="field mb-4">
+          <label class="label" for="emailTemplate">Email Template</label>
+          <div class="control">
+            <textarea
+              id="emailTemplate"
+              name="emailTemplate"
+              class="textarea is-medium premium-input"
+              rows="10"
+              cols="60"
+              bind:value="{emailTemplate}"
+              placeholder="The email template for form submission notifications."
+            ></textarea>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="notification is-info is-light mt-3">
+        The <code>&lt;input type="email" name="email"&gt;</code> field in your HTML form determines where the autoresponse email is sent.
+      </div>
+
+      <!-- ========================= -->
+      <!-- AUTORESPONSE EMAIL -->
+      <!-- ========================= -->
+      <h2 class="title is-5 mt-6">Autoresponse Email</h2>
+
+      <div class="box">
+
+        <div class="field mb-4">
+          <label class="label" for="autoRespEmailSubject">Autoresponse Email Subject</label>
+          <div class="control">
+            <input
+              id="autoRespEmailSubject"
+              class="input is-medium premium-input"
+              name="autoRespEmailSubject"
+              bind:value="{autoRespEmailSubject}"
+              type="text"
+              placeholder="Enter email subject for autoresponse"
+            >
+          </div>
+        </div>
+
+        <div class="notification is-info is-light mt-2">
+          Use the form field <strong>name</strong> attribute to include user‑submitted values in your autoresponse email.  
+          Example: <code>&#123;firstName&#125;</code>
+        </div>
+
+        <div class="field mb-4">
+          <label class="label" for="autoRespTemplate">Autoresponse Email Template</label>
+          <div class="control">
+            <textarea
+              id="autoRespTemplate"
+              name="autoRespTemplate"
+              class="textarea is-medium premium-input"
+              rows="10"
+              cols="60"
+              bind:value={autoRespTemplate}
+              placeholder="The email template for autoresponse emails"
+            ></textarea>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ========================= -->
+      <!-- REDIRECTS & WEBHOOKS -->
+      <!-- ========================= -->
+      <h2 class="title is-5 mt-6">Redirects & Webhooks</h2>
+
+      <div class="box">
+
+        <div class="field mb-4">
+          <label class="label" for="redirect_url">Redirect URL</label>
+          <div class="control">
+            <input
+              id="redirect_url"
+              class="input is-medium premium-input"
+              name="redirectUrl"
+              bind:value="{redirectUrl}"
+              type="url"
+              placeholder="The page to redirect to when the form has been submitted."
+            >
+          </div>
+        </div>
+
+        <div class="field mb-4">
+          <label class="label" for="webhook_url">Webhook URL</label>
+          <div class="control">
+            <input
+              id="webhook_url"
+              class="input is-medium premium-input"
+              name="webhookUrl"
+              bind:value="{webhookUrl}"
+              type="text"
+              placeholder="The webhook URL to call when the form has been submitted."
+            >
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ========================= -->
+      <!-- WARNING -->
+      <!-- ========================= -->
+      <div class="notification is-warning is-light mt-5">
+        <strong>Warning:</strong> Deleting this form is permanent.  
+        All submissions, uploaded files, and associated data will be permanently removed and cannot be recovered.
+      </div>
+
+      <!-- ========================= -->
+      <!-- DANGER ZONE -->
+      <!-- ========================= -->
+      <h2 class="title is-5 has-text-danger mt-6">Danger Zone</h2>
+
+      <div class="notification is-danger is-light">
+        <strong>This action is irreversible.</strong><br>
+        Deleting this form will permanently remove all submissions, uploaded files, and associated data.
+      </div>
+
+      <button class="button is-danger is-medium delete-button mt-3" on:click={openModal}>
+  <span class="icon">
+    <i class="fas fa-trash-alt"></i>
+  </span>
+  <span>Delete Form</span>
+</button>
 
 
-<div class="field">
-  <label for="message">Form Message</label>
- <div class="control">
-	 <textarea name="message" class="textarea mt-5" rows="10" cols="60" bind:value={message} placeHolder= "Enter message on form after form submitted"/> 
-</div>
-</div>
+<Modal
+  isOpenModal={isOpenModal}
+  on:closeModal={closeModal}
+  on:success={deleteEndpoint}
+  title="Are you sure you want to delete this form?"
+  buttonText="Delete"
+  buttonClass="is-danger"
+/>
 
-
-<div class="field">
-<label class="checkbox">
-  <input type="checkbox" bind:checked={autoResp} >
-   Send Auto-response Email</label>
-</div>
-
-
-{#if $tier == 0}
-<UpgradeButton />
-{/if}
-
-<div class="field">
-  <label for="telegramChatId" class="font-semibold text-gray-800">
-    Telegram Notifications
-  </label>
-  <div class="control mt-2">
-    <input
-      class="input mt-1 p-3 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-      name="telegramChatId"
-      bind:value="{telegramChatId}"
-      type="text"
-      placeholder="Enter your Telegram Chat ID to receive notifications"
-      disabled={$tier == 0}
-    />
+    </div>
   </div>
-
-  <div class="text-sm text-gray-600 mt-2">
-    ⚠️ <strong>Opt-in feature:</strong> To receive Telegram notifications from form submissions, follow these steps:
-    <ol class="list-decimal list-inside mt-1">
-      <li>Start the bot by opening
-        <a href="https://t.me/fabform_bot" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline">@fabform_bot</a> in Telegram and pressing <code>/start</code>.</li>
-      <li>Get your Chat ID from
-        <a href="https://t.me/userinfobot" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline">@userinfobot</a>.</li>
-      <li>Enter your Chat ID in the field above.</li>
-    </ol>
-  </div>
-
-</div>
-<div class="field">
-  <label for="respEmail">Notifications Email</label>
- <div class="control">
-<input class="input mt-5" name="respEmail" bind:value="{respEmail}" type="email" placeHolder="Enter email to send form submission notifications" disabled={$tier ==0}/>
- </div>
 </div>
 
-
-<div class="field">
-  <label for="respEmailSubject">Notifications Email Subject</label>
- <div class="control">
-  <input class="input mt-5" name="respEmailSubject" bind:value="{respEmailSubject}" type="text" placeHolder="Enter email subject for form submission notifications" disabled={$tier ==0}/>
- </div>
-</div>
-
-<div class="field">
-<label class="checkbox">
-  <input type="checkbox" bind:checked={emailNotification} disabled={$tier ==0}/>
-   Send Email Notifications
-    </label>
-</div>
-
-<div class="field">
-  <label for="emailTemplate">Notifications Email Template</label>
-  <div class="notification mt-3" disabled={$tier ==0}/ >
-  Use the form elements <strong>name</strong> attribute to insert it's value, ex. Hello <strong> {'{'}firstName{'}'}</strong>
-</div>
-
- <div class="control">
-	 <textarea name="emailTemplate" class="textarea mt-5" rows="10" cols="60" bind:value="{emailTemplate}" disabled={$tier ==0} placeHolder= "The email template for form submission notifications."></textarea>
-</div>
-</div>
-
-<div class="notification mt-1">
-The &lt;input type="email" name="email"&gt; field in your HTML form defines where to send the autoresponse e-mail
-</div>
-
-<div class="field">
-  <label for="autoRespEmailSubject">Auto-response Email Subject</label>
- <div class="control">
-  <input class="input mt-5" name="autoRespEmailSubject" bind:value="{autoRespEmailSubject}" type="text" placeHolder="Enter email subject for autoresponse" disabled={$tier ==0}/>
- </div>
-</div>
-
-<div class="field">
-	<label for="autoRespTemplate">Auto-response Email Template</label>
-	<div class="notification mt-2">
-		Use the form elements <strong>name</strong> attribute to insert it's value, ex. Hello <strong> {'{'}firstName{'}'}
-</div>
-
- <div class="control">
-<textarea name="autoRespTemplate" class="textarea mt-5" rows="10" cols="60" bind:value={autoRespTemplate} placeHolder= "The email template for autoresponse emails" disabled={$tier ==0}/>
-</div>
-</div>
-
-<div class="field">
-  <label for="redirect_url">Redirect URL</label>
- <div class="control">
-  <input class="input mt-5" name="redirectUrl" bind:value="{redirectUrl}" type="url" placeHolder="The page to redirect to when the form has been submitted." disabled={$tier ==0}>
- </div>
-</div>
-
-<div class="field">
-  <label for="webhook_url">Webhook URL</label>
- <div class="control">
-  <input class="input mt-5" name="webhookUrl" bind:value="{webhookUrl}" type="text" placeHolder="The webhook URL to call when the form has been submitted." disabled={$tier==0}>
- </div>
-</div>
-
-<div class="notification">
-Deleting the form will erase all traces of this form, including all submissions and file uploads
-</div>
-
-<Modal isOpenModal={isOpenModal} on:closeModal={closeModal} on:success={deleteEndpoint} title="Are you sure you want to delete this form?" buttonText="Delete"/>
-<div class="field">
-  <label for="danger_zone">DANGER ZONE</label>
-  <button class="button is-danger" on:click={openModal}>Delete Form</button>
-  </div>
-</div>
-</main>
