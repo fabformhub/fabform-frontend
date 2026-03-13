@@ -72,7 +72,7 @@
       <a class="dropdown-item py-3 px-4 svelte-pt48k0" target="_blank" href="https://docs.fabform.io"><span class="mr-2"><i class="fa-solid fa-book svelte-pt48k0"></i></span>
         Documentation</a> 
 
-      <a class="dropdown-item py-3 px-4 svelte-pt48k0" target="_blank" href="https://fabform.io/contact-us/"><span class="mr-2"><i class="fa-regular fa-message svelte-pt48k0"></i></span>
+      <a class="dropdown-item py-3 px-4 svelte-pt48k0" target="_blank" href="https://fabform.io/contact/"><span class="mr-2"><i class="fa-regular fa-message svelte-pt48k0"></i></span>
         Contact Us</a> 
 
       <hr class="dropdown-divider"/> 

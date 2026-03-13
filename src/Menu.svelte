@@ -57,7 +57,7 @@
         Documentation
       </a>
 
-      <a class="dropdown-item py-3 px-4" target="_blank" href="https://fabform.io/contact-us/">
+      <a class="dropdown-item py-3 px-4" target="_blank" href="https://fabform.io/contact/">
         <span class="mr-2"><i class="fa-regular fa-message"></i></span>
         Contact Us
       </a>
