@@ -7,6 +7,7 @@ import {removeProtocol} from "./helpers/validation.js"
 import {getJSON,postJSON} from "./helpers/api.js"
 import {router,meta} from 'tinro';
 import { SvelteEasyToast, toast } from 'svelte-easy-toast';
+import UpgradeButton from "./UpgradeButton.svelte";
 const route = meta();  
 let id = route.params.id
 
@@ -125,7 +126,7 @@ router.goto("/forms")
 
 
 {#if $tier == 0}
-<a class="m-1 button is-info is-rounded" target="_blank" href="https://buy.stripe.com/cN24hWaHzadp0jCbIS">Upgrade to <span class="tag is-white is-rounded ml-1 mr-1 pl-1 pr-1 has-text-black">PRO</span> to unlock all these great features below</a>
+<UpgradeButton />
 {/if}
 
 <div class="field">
