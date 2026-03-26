@@ -135,7 +135,7 @@
 
 	<div class="container">
 
-
+{#key $tier}
 {#if $tier == 0}
 <div class="container mt-6">
 
@@ -193,6 +193,7 @@
 
 </div>
 {/if}
+{/key}
 
     {#if errorMessage}      
       <div class="notification is-warning">{errorMessage}</div>
